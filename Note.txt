@@ -28,3 +28,8 @@ heroku create chientd-appname
 // packet.json: add script "start": "node ......index.js"
 
 git push heroku master
+
+--------------------------------------------------
+@app
+nodemon
+validator + mongoose
