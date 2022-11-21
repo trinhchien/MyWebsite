@@ -1,0 +1,30 @@
+@ssh
+
+ssh-keygen -t -rsa -b 4096 c "trinhdacchien1598@gmail.com"
+
+eval $(ssh-agent -s)
+
+ssh-add ~/.ssh/id_rsa
+------------------------------------------------
+@github
+
+git remote add origin (link to github - git@github.com:....)
+
+cat ~/.ssh/id_rsa.pub
+
+ssh -T git@github.com 
+
+git push -u origin main
+
+---------------------------------------------------
+@heroku
+
+heroku keys:add
+
+heroku create chientd-appname
+
+// const port = process.env.PORT || 3000
+
+// packet.json: add script "start": "node ......index.js"
+
+git push heroku master
