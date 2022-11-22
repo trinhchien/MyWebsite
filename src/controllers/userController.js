@@ -27,4 +27,27 @@ async function login(req, res, next) {
   }
 }
 
-export { signUp, login };
+async function me(req, res, next) {
+  res.send(req.user);
+}
+
+async function logout(req, res, next) {
+  try {
+    req.user.tokens.remove({ token: req.token });
+    console.log(req.user);
+    req.user.save();
+  } catch (error) {
+    res.status(400).send(error);
+  }
+}
+
+async function logoutAll(req, res, next) {
+  try {
+    req.user.tokens = [];
+    req.user.save();
+    res.send("logout complete");
+  } catch (error) {
+    res.status(400).send(error);
+  }
+}
+export { signUp, login, logout, logoutAll, me };
