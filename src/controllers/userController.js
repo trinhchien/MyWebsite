@@ -31,6 +31,8 @@ async function me(req, res, next) {
   res.send(req.user);
 }
 
+async function deleteUser(req, )
+
 async function logout(req, res, next) {
   try {
     req.user.tokens.remove({ token: req.token });
@@ -50,4 +52,11 @@ async function logoutAll(req, res, next) {
     res.status(400).send(error);
   }
 }
-export { signUp, login, logout, logoutAll, me };
+export { 
+  signUp, 
+  login, 
+  logout, 
+  logoutAll, 
+  me, 
+  deleteUser 
+};
