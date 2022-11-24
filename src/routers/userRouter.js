@@ -1,5 +1,4 @@
 import express from 'express';
-// import { login, logout, signUp, me } from "../controllers/userController.js";
 import * as userController from '../controllers/userController.js';
 import { auth } from '../middlewares/auth.js';
 
@@ -12,9 +11,7 @@ userRouter.route('/signUp').post(userController.signUp);
 userRouter
     .route('/me')
     .get(auth, userController.me)
-    .delete(auth, userController.deleteUser);
-
-userRouter.route();
-userRouter.route('/');
+    .delete(auth, userController.deleteUser)
+    .put(auth, userController.update);
 
 export { userRouter };
