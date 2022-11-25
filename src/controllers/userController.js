@@ -1,4 +1,5 @@
 import { userModel } from '../models/userModel.js';
+import { isUpdatable } from '../helpers/isUpdatable.js';
 import bcrypt from 'bcrypt';
 
 async function signUp(req, res, next) {
@@ -42,11 +43,8 @@ async function deleteUser(req, res, next) {
 
 async function update(req, res, next) {
     const updateReqKeys = Object.keys(req.body);
-    const updatable = ['name', 'email', 'password', 'age'];
-    const isUpdatable = updateReqKeys.every((reqKey) => {
-        return updatable.includes(reqKey);
-    });
-    if (isUpdatable) {
+    const updatable = ['email', 'password', 'age', 'task'];
+    if (isUpdatable(updateReqKeys, updatable)) {
         try {
             updateReqKeys.forEach(
                 (reqKey) => (req.user[reqKey] = req.body[reqKey])
@@ -56,6 +54,8 @@ async function update(req, res, next) {
         } catch (error) {
             res.json(error);
         }
+    } else {
+        res.send('Do not allow to update property');
     }
 }
 
