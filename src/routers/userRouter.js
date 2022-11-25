@@ -12,6 +12,6 @@ userRouter
     .route('/me')
     .get(auth, userController.me)
     .delete(auth, userController.deleteUser)
-    .put(auth, userController.update);
+    .patch(auth, userController.update);
 
 export { userRouter };

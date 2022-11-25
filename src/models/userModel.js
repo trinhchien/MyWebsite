@@ -40,6 +40,7 @@ const userSchema = new Schema(
                 }
             },
         },
+        task: [{ type: Schema.Types.ObjectId, ref: 'task' }],
         tokens: [
             {
                 token: {
@@ -82,7 +83,7 @@ userSchema.statics.findByCredentials = async function (email, password) {
     return user;
 };
 
-userSchema.pre('save', async function (next) {
+userSchema.pre(['save', 'update'], async function (next) {
     const user = this;
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8);
