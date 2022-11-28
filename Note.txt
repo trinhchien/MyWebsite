@@ -29,16 +29,16 @@ heroku create chientd-appname
 
 git push heroku master
 
---------------------------------------------------
+---------------------------------------------------
 @app
 nodemon
 
 validator + mongoose
 
-------------------------------------
+-----------------------------------------------------
 mongoose Schema, model
 
-//validate
+//validate -------
 schema({
     property: {
         type:,
@@ -49,21 +49,44 @@ schema({
     }
 })
 
-//pre('save',{
+//pre save -------
+pre('save',{
     bcrypt.hash(user.password, 8)
 })
 
-//login
+//login -------
 Schema.statics.findByCredentials = async function (email, password){
 
 }
 
 create token
 
-//logout
+//logout --------
 delete token
 
-//hide private data
+//hide private data ------------
 userSchema.methods.toJSON = function(){
 
 }
+
+//populate task and user------
+taskModel:
+            createdBy: {
+            type: Schema.Types.ObjectId,
+            ref: 'user',
+            require: true,
+            },
+
+taskController:
+                await doc.populate('createdBy')
+
+
+userModel: 
+            userSchema.virtual('tasks', {
+            ref: 'task',
+            localField: '_id',
+            foreignField: 'createdBy',
+            });
+
+userController: 
+                await doc.populate('tasks')

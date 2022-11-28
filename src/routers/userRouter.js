@@ -9,6 +9,9 @@ userRouter.route('/logout').get(auth, userController.logout);
 userRouter.route('/logoutAll').get(auth, userController.logoutAll);
 userRouter.route('/signUp').post(userController.signUp);
 userRouter
+    .route('/forceChangePassword')
+    .post(userController.forceChangePassword);
+userRouter
     .route('/me')
     .get(auth, userController.me)
     .delete(auth, userController.deleteUser)

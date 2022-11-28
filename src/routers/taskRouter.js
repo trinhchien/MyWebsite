@@ -5,13 +5,11 @@ import { auth } from '../middlewares/auth.js';
 const taskRouter = express.Router();
 
 taskRouter.route('/create').post(auth, taskController.create);
+taskRouter.route('/listTask').get(auth, taskController.listTask);
+taskRouter.route('/delete').delete(auth, taskController.deleteTasks);
 taskRouter.route('/delete/:taskId').delete(auth, taskController.deleteById);
 taskRouter.route('/update/:taskId').patch(auth, taskController.updateById);
-///place holder
-
-taskRouter.route('/update').patch(auth, taskController.update); //
-
-taskRouter.route('/delete').delete(auth, taskController.deleteTasks); //
-///place holder
+taskRouter.route('/:taskId').get(auth, taskController.taskDetail);
+// taskRouter.route('/update/:taskId').patch(auth, taskController.updatebyId);
 
 export { taskRouter };

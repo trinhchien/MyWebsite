@@ -3,6 +3,8 @@ const { Schema } = mongoose;
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { taskRouter } from '../routers/taskRouter.js';
+import { taskModel } from './taskModel.js';
 
 const userSchema = new Schema(
     {
@@ -52,7 +54,7 @@ const userSchema = new Schema(
             default: 'user',
             require: true,
         },
-        task: [{ type: Schema.Types.ObjectId, ref: 'task' }],
+        // task: [{ type: Schema.Types.ObjectId, ref: 'task' }],
         tokens: [
             {
                 token: {
@@ -65,6 +67,12 @@ const userSchema = new Schema(
     { timestamps: true }
 );
 
+userSchema.virtual('tasks', {
+    ref: 'task',
+    localField: '_id',
+    foreignField: 'createdBy',
+});
+
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jwt.sign(
@@ -76,8 +84,6 @@ userSchema.methods.generateAuthToken = async function () {
         global.SECRET_JWT
     );
     user.tokens.push({ token });
-    console.log(role);
-
     await user.save();
     return token;
 };
@@ -109,6 +115,12 @@ userSchema.pre(['save', 'update'], async function (next) {
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8);
     }
+    next();
+});
+
+userSchema.pre('remove', async function (next) {
+    const user = this;
+    taskModel.deleteMany({ createdBy: user._id });
     next();
 });
 

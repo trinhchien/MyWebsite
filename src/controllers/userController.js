@@ -23,13 +23,15 @@ async function login(req, res, next) {
 
         const token = await user.generateAuthToken();
         res.status(200).send({ user, token });
-    } catch (error) {
-        res.status(400).send({ error });
+    } catch (e) {
+        console.log(e);
+        await res.status(400).send({ error: e.message });
     }
 }
 
 async function me(req, res, next) {
-    res.send(req.user);
+    await req.user.populate('tasks');
+    res.send({ user: req.user, task: req.user.tasks });
 }
 
 async function deleteUser(req, res, next) {
@@ -78,4 +80,24 @@ async function logoutAll(req, res, next) {
         res.status(400).send(error);
     }
 }
-export { signUp, login, logout, logoutAll, me, deleteUser, update };
+
+async function forceChangePassword(req, res) {
+    try {
+        const target = await userModel.findById(req.body.userId);
+        target.password = req.body.userPassword;
+        const newTarget = await target.save();
+        res.send({ newTarget });
+    } catch (e) {
+        res.send({ error: e.message });
+    }
+}
+export {
+    signUp,
+    login,
+    logout,
+    logoutAll,
+    me,
+    deleteUser,
+    update,
+    forceChangePassword,
+};
