@@ -90,3 +90,7 @@ userModel:
 
 userController: 
                 await doc.populate('tasks')
+
+
+//upload file: multer
+//convert image: sharp  

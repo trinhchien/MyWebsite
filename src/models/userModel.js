@@ -42,6 +42,7 @@ const userSchema = new Schema(
                 }
             },
         },
+        avatar: Buffer,
         status: {
             type: String,
             enum: ['active', 'delete', 'ban'],
@@ -72,7 +73,7 @@ userSchema.virtual('tasks', {
     localField: '_id',
     foreignField: 'createdBy',
 });
-
+//token
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jwt.sign(
@@ -87,7 +88,7 @@ userSchema.methods.generateAuthToken = async function () {
     await user.save();
     return token;
 };
-
+//hide private data
 userSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
@@ -97,7 +98,7 @@ userSchema.methods.toJSON = function () {
 
     return userObject;
 };
-
+//login
 userSchema.statics.findByCredentials = async function (email, password) {
     const user = await this.findOne({ email });
     if (!user) {
@@ -109,7 +110,7 @@ userSchema.statics.findByCredentials = async function (email, password) {
     }
     return user;
 };
-
+//hash password
 userSchema.pre(['save', 'update'], async function (next) {
     const user = this;
     if (user.isModified('password')) {
@@ -117,7 +118,7 @@ userSchema.pre(['save', 'update'], async function (next) {
     }
     next();
 });
-
+//delete all user's task when delete user
 userSchema.pre('remove', async function (next) {
     const user = this;
     taskModel.deleteMany({ createdBy: user._id });

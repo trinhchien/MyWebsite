@@ -79,23 +79,18 @@ async function deleteTasks(req, res) {
 
 async function listTask(req, res) {
     try {
-        const Tasks = await taskModel.find({ createdBy: req.user._id });
+        const sortOption = req.query.sortBy.split(':');
+        const orderBy = sortOption[1] === 'asc' ? 1 : -1;
+        const Tasks = await taskModel
+            .find({ createdBy: req.user._id, progress: req.query.progress })
+            .limit(+req.query.limit)
+            .skip(+req.query.skip)
+            .sort({ [sortOption[0]]: orderBy });
+
         res.send(Tasks);
     } catch (e) {
         res.send({ error: e.message });
     }
 }
-// async function updatebyId(req, res) {
-// try {
-//     const taskTarget = await taskModel.find({_id: req.params.taskId, createdBy: req.user._id})
-//     if(!taskTarget){
-//         throw new Error(`Task is not found!`)
-//     }
-//     const updateReqKeys = Object.keys(req.body);
-//     const updatable = ['name', 'description', 'progress', 'people'];
-// } catch (e) {
-
-// }
-// }
 
 export { create, updateById, deleteTasks, deleteById, taskDetail, listTask };

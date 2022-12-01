@@ -1,6 +1,6 @@
 import { userModel } from '../models/userModel.js';
 import { isUpdatable } from '../helpers/isUpdatable.js';
-import bcrypt from 'bcrypt';
+import sharp from 'sharp';
 
 async function signUp(req, res, next) {
     const newUser = new userModel(req.body);
@@ -91,6 +91,34 @@ async function forceChangePassword(req, res) {
         res.send({ error: e.message });
     }
 }
+
+async function uploadAvatar(req, res) {
+    try {
+        const imageBuffer = await sharp(req.file.buffer)
+            .resize({ width: 250, height: 250 })
+            .png()
+            .toBuffer();
+        req.user.avatar = imageBuffer;
+        await req.user.save();
+        res.send('Uploaded avatar');
+    } catch (error) {
+        res.send(error.message);
+    }
+}
+
+function getAvatar(req, res) {
+    if (!req.user || !req.user.avatar) {
+        return res.status(404).send('Avatar not found');
+    }
+    res.set('Content-Type', 'image/jpg');
+    res.send(req.user.avatar);
+}
+
+async function getAvatarById(req, res) {
+    const user = await userModel.findById(req.params.userId);
+    res.set('Content-Type', 'image/jpg');
+    res.send(user.avatar);
+}
 export {
     signUp,
     login,
@@ -100,4 +128,7 @@ export {
     deleteUser,
     update,
     forceChangePassword,
+    uploadAvatar,
+    getAvatar,
+    getAvatarById,
 };
