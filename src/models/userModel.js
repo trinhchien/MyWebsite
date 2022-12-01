@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { taskRouter } from '../routers/taskRouter.js';
+// import { taskRouter } from '../routers/taskRouter.js';
 import { taskModel } from './taskModel.js';
 
 const userSchema = new Schema(
@@ -82,7 +82,7 @@ userSchema.methods.generateAuthToken = async function () {
             role: user.role,
             status: user.status,
         },
-        global.SECRET_JWT
+        process.env.SECRET_JWT
     );
     user.tokens.push({ token });
     await user.save();

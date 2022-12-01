@@ -1,8 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
-
-global.SECRET_JWT = 'chientd1598';
+import * as dotenv from 'dotenv';
+// global.SECRET_JWT = 'chientd1598';
+dotenv.config({ path: './config/.env' });
 
 const app = express();
 
