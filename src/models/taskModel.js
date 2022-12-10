@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const taskScheme = new Schema(
+const taskSchema = new Schema(
     {
         name: {
             type: String,
@@ -36,6 +36,6 @@ const taskScheme = new Schema(
     { timestamps: true }
 );
 
-const taskModel = mongoose.model('task', taskScheme);
+const taskModel = mongoose.model('task', taskSchema);
 
 export { taskModel };
