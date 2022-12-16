@@ -1,0 +1,37 @@
+<div class='container'>
+    <div class='mw-100' style='width: 2000px;'>
+        <div class='row mx-auto mt-2'>
+            {{#each courses}}
+
+                <div class='col-sm-6 col-lg-4'>
+                    <div class='card mt-4' style='width: 20rem;'>
+                        <a href='courses/{{this.slug}}'>
+                            <img
+                                src='https://img.youtube.com/vi/{{this.youtubeId}}/hqdefault.jpg'
+                                class='card-img-top'
+                                alt='{{this.title}}'
+                            />
+                        </a>
+                        <div class='card-body'>
+                            <div class='store_text_box'>
+                                <a href='courses/{{this.slug}}'>
+                                    <h5
+                                        class='card-title my_element'
+                                    >{{this.title}}</h5>
+                                </a>
+                                <p
+                                    class='card-text my_element'
+                                >{{this.description}}</p>
+                                <a
+                                    href='courses/{{this.slug}}'
+                                    class='btn btn-primary btn_buy_course'
+                                >Mua khoá học</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

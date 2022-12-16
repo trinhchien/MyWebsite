@@ -3,7 +3,7 @@
     style='background-color: rgb(245, 243, 243);'
 >
     <a class='navbar-brand font-weight-bold' href='/'>
-        <img src='../../../img/brain_icon.jpg' width='96' height='96' />
+        {{! <img src='../../../img/brain_icon.jpg' width='96' height='96' /> }}
         ML-Courses
     </a>
     <button
@@ -50,17 +50,9 @@
                 <a class='nav-link disabled' href='#'>Disabled</a>
             </li>
         </ul>
-        <form class='form-inline my-2 my-lg-0'>
-            <input
-                class='form-control mr-sm-2'
-                type='search'
-                placeholder='Search'
-                aria-label='Search'
-            />
-            <button
-                class='btn btn-outline-success my-2 my-sm-0'
-                type='submit'
-            >Search</button>
+        <form>
+            <a href='/user/login' style='margin: 0px 4px;'>Login</a>
+            <a href='/user/signin' style='margin: 0px 4px;'>Signin</a>
         </form>
     </div>
 </nav>

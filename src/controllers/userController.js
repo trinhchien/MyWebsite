@@ -14,7 +14,7 @@ async function signUp(req, res, next) {
     }
 }
 
-async function login(req, res, next) {
+async function postLogin(req, res, next) {
     try {
         const user = await userModel.findByCredentials(
             req.body.email,
@@ -27,6 +27,20 @@ async function login(req, res, next) {
         console.log(e);
         await res.status(400).send({ error: e.message });
     }
+}
+
+async function getLogin(req, res, next) {
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+    res.render('user/login', {
+        path: '/login',
+        pageTitle: 'Login',
+        errorMessage: message,
+    });
 }
 
 async function me(req, res, next) {
@@ -121,7 +135,8 @@ async function getAvatarById(req, res) {
 }
 export {
     signUp,
-    login,
+    postLogin,
+    getLogin,
     logout,
     logoutAll,
     me,
